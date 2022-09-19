@@ -19,6 +19,7 @@ async function sendTransaction(transaction) {
         data: transaction.encodeABI(),
         gas: await transaction.estimateGas({ from: account.address }),
         gasPrice: await web3.eth.getGasPrice(),
+        from: account.address,
     };
 
     const signed = await web3.eth.accounts.signTransaction(

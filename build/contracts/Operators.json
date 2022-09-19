@@ -1113,7 +1113,7 @@
   },
   "networks": {},
   "schemaVersion": "3.4.9",
-  "updatedAt": "2022-09-14T12:17:30.912Z",
+  "updatedAt": "2022-09-19T07:09:08.608Z",
   "devdoc": {
     "kind": "dev",
     "methods": {},
@@ -1123,5 +1123,6 @@
     "kind": "user",
     "methods": {},
     "version": 1
-  }
+  },
+  "address": "0x600D8212a86371be0681dDEDCF282b1405716D89"
 }

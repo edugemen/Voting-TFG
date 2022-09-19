@@ -1,10 +1,8 @@
-import logo from "./logo.svg";
 import "./App.css";
 import Home from "./pages/Home";
 import { Route, Routes } from "react-router-dom";
 import Register from "./pages/Register";
-import { AccountWatcher, AdminRoute } from "./utils/protectRoutes";
-import Admin from "./pages/Admin";
+import { AccountWatcher } from "./utils/protectRoutes";
 import Vote from "./pages/Vote";
 import CreateParty from "./pages/CreateParty";
 import Party from "./pages/Party";
@@ -63,16 +61,6 @@ function App() {
                     element={
                         <AccountWatcher>
                             <Register />
-                        </AccountWatcher>
-                    }
-                />
-                <Route
-                    path="/admin"
-                    element={
-                        <AccountWatcher>
-                            <AdminRoute>
-                                <Admin />
-                            </AdminRoute>
                         </AccountWatcher>
                     }
                 />

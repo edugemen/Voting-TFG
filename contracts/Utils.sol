@@ -82,7 +82,7 @@ contract Utils {
 
         address signer = ecrecover(hash, v, r, s);
         require(signer != address(0), "ECDSA: invalid signature");
-        require(signer == sender, "MyFunction: invalid signature");
+        require(signer == sender, "Register: invalid signature");
 
         addressToDni[sender] = dni;
         dniToAddress[dni] = sender;

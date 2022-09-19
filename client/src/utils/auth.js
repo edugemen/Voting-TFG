@@ -1,7 +1,7 @@
 import { getWeb3 } from "./metamask";
 const Utils = require("../abis/Utils.json");
 
-export const utilsContractAddress = Utils.networks["25560"].address;
+export const utilsContractAddress = Utils.address;
 
 export async function isAccountRegistered(account) {
     return new Promise(async (resolve, reject) => {

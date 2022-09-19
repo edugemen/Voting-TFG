@@ -4,19 +4,6 @@ import Navbar from "../components/Navbar";
 import { isAccountRegistered } from "./auth";
 import { getWeb3 } from "./metamask";
 
-export const AdminRoute = ({ children }) => {
-    // let navigate = useNavigate();
-
-    // useEffect(() => {
-    //     isA;
-    //     if (!isAdmin) {
-    //         navigate("/");
-    //     }
-    // }, []);
-
-    return children;
-};
-
 export const AccountWatcher = ({ children }) => {
     let navigate = useNavigate();
     const [completed, setCompleted] = useState(false);

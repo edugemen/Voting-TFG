@@ -28,18 +28,19 @@ function setContractAddress(contractName, contractData, network) {
 }
 
 module.exports = async function (deployer, network) {
+    console.log("Deploying contracts to network: " + network);
     deployer.deploy(Operators).then((operators) => {
-        setContractAddress("Operators", operators, network);
-        console.log("Operators deployed at: " + operators.address);
+        // setContractAddress("Operators", operators, network);
+        // console.log("Operators deployed at: " + operators.address);
         deployer
             .deploy(VoteFaucet, operators.address)
             .then((voteFaucet) => {
-                setContractAddress("VoteFaucet", voteFaucet, network);
-                console.log("VoteFaucet deployed at: " + voteFaucet.address);
+                // setContractAddress("VoteFaucet", voteFaucet, network);
+                // console.log("VoteFaucet deployed at: " + voteFaucet.address);
                 deployer
                     .deploy(Utils, voteFaucet.address, operators.address)
                     .then((utils) => {
-                        setContractAddress("Utils", utils, network);
+                        // setContractAddress("Utils", utils, network);
                         console.log("Utils deployed at: " + utils.address);
                     });
             })

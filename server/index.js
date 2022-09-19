@@ -2,30 +2,23 @@ const express = require("express");
 var cors = require("cors");
 require("dotenv").config({ path: "../.env" });
 const { web3, sendTransaction, getRsv } = require("./utils/eth");
-const { getContract } = require("./utils/contract");
+const { getContract, deployContracts } = require("./utils/contract");
 const fs = require("fs");
 const path = require("path");
 
 const Utils = getContract("Utils");
 
-const UTILS_ADDRESS = Utils.networks[process.env.NETWORK_ID.toString()].address;
+let UTILS_ADDRESS = undefined;
+
+if (Utils.address) {
+    UTILS_ADDRESS = Utils.address;
+}
 
 const app = express();
 const port = 3005;
 
 app.use(cors());
 app.use(express.json());
-
-fs.watchFile(
-    path.resolve(__dirname, "build/contracts/Utils.json"),
-    (curr, prev) => {
-        console.log("Utils contract updated");
-        //delete require.cache[require.resolve("./utils/contract")];
-        //const { getContract } = require("./utils/contract");
-        //Utils = getContract("Utils");
-        console.log(curr.abi);
-    }
-);
 
 //Register
 app.post("/register", async (req, res) => {
@@ -53,4 +46,8 @@ app.post("/register", async (req, res) => {
 
 app.listen(port, () => {
     console.log(`Example app listening on port ${port}`);
+    if (!UTILS_ADDRESS) {
+        console.log("Utils contract not found");
+        deployContracts();
+    }
 });
