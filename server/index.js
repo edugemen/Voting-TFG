@@ -20,6 +20,8 @@ const port = 3005;
 app.use(cors());
 app.use(express.json());
 
+let ballotList = [];
+
 //Register
 app.post("/register", async (req, res) => {
     try {
@@ -44,10 +46,43 @@ app.post("/register", async (req, res) => {
     }
 });
 
-app.listen(port, () => {
+app.get("/ballots/:size", async (req, res) => {
+    let size = req.params.size;
+
+    res.send(ballotList.slice(-size));
+});
+
+function listenToEvents() {
+    //Use a timer and each time it fires, check all the ballots
+    setInterval(async () => {
+        let utilsContract = new web3.eth.Contract(Utils.abi, UTILS_ADDRESS);
+
+        let ballots = await utilsContract.methods.getBallots().call();
+
+        for (let i = ballotList.length; i < ballots.length; i++) {
+            let ballotContract = new web3.eth.Contract(
+                getContract("Ballot").abi,
+                ballots[i]
+            );
+            let data = await ballotContract.methods.getData().call();
+
+            ballotList.push({
+                address: ballots[i],
+                question: data[0],
+                options: data[1],
+                timestamp: Date.now(),
+            });
+        }
+    }, 60000);
+}
+
+app.listen(port, async () => {
     console.log(`Example app listening on port ${port}`);
     if (!UTILS_ADDRESS) {
         console.log("Utils contract not found");
-        deployContracts();
+        let addresses = await deployContracts();
+        UTILS_ADDRESS = addresses[0];
+        console.log(addresses);
     }
+    listenToEvents();
 });

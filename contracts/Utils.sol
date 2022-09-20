@@ -23,6 +23,8 @@ contract Utils {
     mapping(address => bool) private isParty;
     mapping(address => bool) private isBallot;
 
+    address[] private ballots;
+
     VoteFaucet voteFaucet;
     Operators operators;
 
@@ -127,6 +129,7 @@ contract Utils {
         require(!isBallot[_ballot], "Ballot already in mapping");
         require(isRegistered(_owner), "Owner not registered");
         isBallot[_ballot] = true;
+        ballots.push(_ballot);
     }
 
     function addPartyToUser(address _user) public {
@@ -151,6 +154,10 @@ contract Utils {
 
     function getParties() public view returns (address[] memory) {
         return userParties[msg.sender];
+    }
+
+    function getBallots() public view returns (address[] memory) {
+        return ballots;
     }
 
     //Check if dni and address correspond to each other
