@@ -1,6 +1,4 @@
-import { useNavigate } from "react-router-dom";
 import Web3 from "web3/dist/web3.min.js";
-import { isAccountRegistered } from "./auth";
 
 export function getWeb3() {
     return new Promise(async (resolve, reject) => {
@@ -20,19 +18,3 @@ export function getWeb3() {
         }
     });
 }
-
-// function initAccount() {
-//     let navigate = useNavigate();
-
-//     getWeb3().then(async (web3) => {
-//         let userAccount = localStorage.getItem("userAccount");
-//         let registered = await isAccountRegistered(userAccount);
-//         if (!registered) {
-//             navigate("/register");
-//         }
-//         // isAdmin().then((isAdmin) => {
-//         //     console.log(isAdmin);
-//         //     setAdmin(isAdmin);
-//         // });
-//     });
-// }

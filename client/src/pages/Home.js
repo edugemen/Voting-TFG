@@ -10,8 +10,6 @@ function Home(props) {
 
     useEffect(() => {
         getPartiesFromUser().then((result) => {
-            // setParties(result);
-            // console.log(result);
             let promises = result.map((party) => {
                 return getParty(party);
             });

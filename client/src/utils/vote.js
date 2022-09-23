@@ -23,8 +23,6 @@ export function securePartyVote(ballotAddress, partyAddress, option) {
         let web3 = await getWeb3();
         let sender = (await web3.eth.getAccounts())[0];
 
-        console.log(ballotAddress, partyAddress, option);
-
         let partyContract = new web3.eth.Contract(Party.abi, partyAddress);
 
         partyContract.methods

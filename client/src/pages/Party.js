@@ -1,6 +1,5 @@
 import React, { useEffect, useRef, useState } from "react";
 import { useParams } from "react-router-dom";
-import { getWeb3 } from "../utils/metamask";
 import {
     checkPartyOwner,
     editParty,
@@ -11,7 +10,6 @@ import {
 import jazzicon from "@metamask/jazzicon";
 import { BsBookmarkStar, BsBookmarkStarFill } from "react-icons/bs";
 import { MdModeEdit } from "react-icons/md";
-import Cookies from "universal-cookie";
 import LoadingButton from "../components/LoadingButton";
 import { useCookies } from "react-cookie";
 
@@ -73,12 +71,10 @@ function Party(props) {
                 let pvl = cookies.partyFavList;
                 if (pvl) {
                     pvl = pvl.filter((p) => p.address !== party.address);
-                    console.log("pvl2", pvl);
                     setCookies("partyFavList", pvl, {
                         path: "/",
                     });
                 }
-                console.log(cookies.partyFavList);
                 setIsBookmarked(false);
             } else {
                 let pvl = cookies.partyFavList;
@@ -98,7 +94,6 @@ function Party(props) {
         if (isJoined) {
             joinParty("0x0000000000000000000000000000000000000000").then(
                 (result) => {
-                    console.log(result);
                     setIsJoined(false);
                     let p = party;
                     p.numberOfMembers = p.numberOfMembers - 1;
@@ -107,7 +102,6 @@ function Party(props) {
             );
         } else {
             joinParty(id).then((result) => {
-                console.log(result);
                 setIsJoined(true);
                 let p = party;
                 p.numberOfMembers = p.numberOfMembers + 1;

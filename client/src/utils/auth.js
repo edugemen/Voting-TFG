@@ -10,12 +10,10 @@ export async function isAccountRegistered(account) {
             Utils.abi,
             utilsContractAddress
         );
-        console.log(utilsContractAddress, account);
         utilsContract.methods
             .isRegistered(account)
             .call({ from: account })
             .then((result) => {
-                console.log(result);
                 resolve(result);
             })
             .catch((error) => {

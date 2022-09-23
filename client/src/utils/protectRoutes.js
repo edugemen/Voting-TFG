@@ -13,7 +13,6 @@ export const AccountWatcher = ({ children }) => {
         let userAccount = localStorage.getItem("userAccount");
 
         let registered = await isAccountRegistered(userAccount);
-        console.log("Esta registrado:", registered);
         if (!registered) {
             navigate("/register");
         }

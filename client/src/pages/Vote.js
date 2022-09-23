@@ -1,12 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
-import Navbar from "../components/Navbar";
-import {
-    checkPartyOwner,
-    getPartiesFromUser,
-    getParty,
-    getPartyVotes,
-} from "../utils/party";
+import { getPartiesFromUser, getParty, getPartyVotes } from "../utils/party";
 import {
     getBallotData,
     getFinalVotes,
@@ -32,14 +26,7 @@ function Vote(props) {
     const [myParties, setMyParties] = useState([]);
     const [hideParties, setHideParties] = useState(true);
 
-    //
-    // const [partyAddress, setPartyAddress] = useState(null);
-    // const [partyData, setPartyData] = useState(null);
-    //
-    // const [partyVotes, setPartyVotes] = useState([]);
-
     const getPieChartData = async () => {
-        console.log("getPieChartData");
         if (ballotData && ballotData.length > 0 && ballotData[2] == 3) {
             getFinalVotes(id).then((res) => {
                 let suma = res.reduce((a, b) => a + b, 0);
@@ -67,34 +54,18 @@ function Vote(props) {
     useEffect(() => {
         const cookies = new Cookies();
         let pvl = cookies.get("partyFavList");
-        console.log("pvl", pvl);
         if (pvl) {
             setPartyFavList(pvl);
         }
         getPartiesFromUser().then((res) => {
             res = res.map((item) => {
-                console.log("item", item);
                 return getParty(item);
             });
-            console.log("res", res);
             Promise.all(res).then((res) => {
                 setMyParties(res);
             });
         });
-        // } else {
-        //     let parties = ["0xb9AF5eb1Ef2f7a663f1f1C41A3b10d512c5599aA"];
-        //     parties = parties.map((party) => {
-        //         return getParty(party);
-        //     });
-        //     Promise.all(parties).then((parties_res) => {
-        //         setPartyFavList(parties_res);
-        //     });
-        // }
     }, []);
-
-    useEffect(() => {
-        console.log("myParties", myParties);
-    }, [myParties]);
 
     useEffect(() => {
         if (ballotData && partyFavList && partyFavList.length > 0) {
@@ -165,20 +136,17 @@ function Vote(props) {
         e.preventDefault();
         ballotData[1].find((_, index) => {
             if (isChecked(e, index)) {
-                console.log(index);
                 if (selectedParty) {
                     setIsLoading(true);
                     securePartyVote(id, selectedParty.address, index).then(
                         (result) => {
                             setIsLoading(false);
-                            console.log(result);
                         }
                     );
                 } else {
                     setIsLoading(true);
                     secureVote(id, index).then((result) => {
                         setIsLoading(false);
-                        console.log(result);
                     });
                 }
             }

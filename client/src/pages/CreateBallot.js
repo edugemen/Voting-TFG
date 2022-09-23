@@ -1,10 +1,9 @@
 import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import LoadingButton from "../components/LoadingButton";
-import { createBallot, getBallotList } from "../utils/admin";
+import { createBallot } from "../utils/admin";
 
 function CreateBallot(props) {
-    const [ballotList, setBallotList] = useState([]);
     const [loading, setLoading] = useState(false);
     const navigate = useNavigate();
 
@@ -19,18 +18,10 @@ function CreateBallot(props) {
             (res) => {
                 setLoading(false);
                 if (res) {
-                    console.log("Ballot created");
                     navigate("/vote/" + res);
                 }
             }
         );
-    };
-
-    const getBallots = () => {
-        getBallotList().then((res) => {
-            console.log(res);
-            setBallotList(res);
-        });
     };
 
     return (

@@ -10,7 +10,6 @@ export function createParty(_name, _description) {
         let web3 = await getWeb3();
         let userAddress = (await web3.eth.getAccounts())[0];
         let partyContract = new web3.eth.Contract(Party.abi);
-        console.log(userAddress);
         partyContract
             .deploy({
                 data: Party.bytecode,
@@ -18,15 +17,12 @@ export function createParty(_name, _description) {
             })
             .send({ from: userAddress, gas: "3000000" })
             .then((result) => {
-                console.log(result);
                 resolve(result);
             })
             .then((receipt) => {
-                console.log(receipt);
                 resolve(receipt);
             })
             .catch((error) => {
-                console.log(error);
                 reject(error);
             });
     });

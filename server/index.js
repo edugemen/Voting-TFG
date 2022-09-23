@@ -3,8 +3,6 @@ var cors = require("cors");
 require("dotenv").config({ path: "../.env" });
 const { web3, sendTransaction, getRsv } = require("./utils/eth");
 const { getContract, deployContracts } = require("./utils/contract");
-const fs = require("fs");
-const path = require("path");
 
 const Utils = getContract("Utils");
 
