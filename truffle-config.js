@@ -66,8 +66,6 @@
 // copyContractToClient("Owned");
 // copyContractToClient("Party");
 // copyContractToClient("VoteFaucet");
-
-require("dotenv").config();
 const { MNEMONIC, RPC_URL, NETWORK_ID } = process.env;
 
 const HDWalletProvider = require("@truffle/hdwallet-provider");

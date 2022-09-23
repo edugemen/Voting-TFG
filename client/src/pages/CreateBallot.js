@@ -7,10 +7,6 @@ function CreateBallot(props) {
     const [loading, setLoading] = useState(false);
     const navigate = useNavigate();
 
-    useEffect(() => {
-        getBallots();
-    }, []);
-
     const handleBallotCreate = (e) => {
         e.preventDefault();
         setLoading(true);
