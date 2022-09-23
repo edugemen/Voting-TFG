@@ -35,7 +35,7 @@ function Navbar(props) {
     }, []);
 
     return (
-        <nav className="bg-white border-gray-200 px-2 sm:px-4 py-2.5 dark:bg-gray-900 w-full">
+        <nav className="bg-white border-gray-200 px-2 sm:px-4 py-2.5 bg-gray-900 w-full">
             <div className="flex place-content-between w-full">
                 <div className="flex items-center">
                     <a

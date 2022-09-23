@@ -11,6 +11,7 @@ import jazzicon from "@metamask/jazzicon";
 import Cookies from "universal-cookie";
 import { PieChart } from "react-minimal-pie-chart";
 import LoadingButton from "../components/LoadingButton";
+import { Chart } from "react-google-charts";
 
 function Vote(props) {
     let navigate = useNavigate();
@@ -21,31 +22,44 @@ function Vote(props) {
     const [partyVoteList, setPartyVoteList] = useState([]);
     const [secondsRemaining, setSecondsRemaining] = useState(0);
     const [partyVoteActive, setPartyVoteActive] = useState(false);
-    const [pieChartData, setPieChartData] = useState(null);
+    const [chartData, setChartData] = useState(null);
     const [isLoading, setIsLoading] = useState(false);
     const [myParties, setMyParties] = useState([]);
     const [hideParties, setHideParties] = useState(true);
 
-    const getPieChartData = async () => {
+    //react google charts options for bar chart
+    const options = {
+        title: "Votos",
+        chartArea: { width: "50%" },
+        hAxis: {
+            title: "Votos",
+            minValue: 0,
+        },
+        vAxis: {
+            title: "Opciones",
+        },
+    };
+
+    const data = [
+        ["Age", "Weight"],
+        [8, 12],
+        [4, 5.5],
+        [11, 14],
+        [4, 5],
+        [3, 3.5],
+        [6.5, 7],
+    ];
+
+    const getChartData = async () => {
         if (ballotData && ballotData.length > 0 && ballotData[2] == 3) {
             getFinalVotes(id).then((res) => {
-                let suma = res.reduce((a, b) => a + b, 0);
-                if (suma > 0) {
-                    let v = res.map((number, i) => {
-                        return {
-                            title: ballotData[1][i],
-                            value: number / suma,
-                            color:
-                                "#" +
-                                Math.floor(Math.random() * 16777215).toString(
-                                    16
-                                ),
-                        };
-                    });
-                    v = v.filter((item) => item.value > 0);
-                    setPieChartData(v);
-                } else {
-                    setPieChartData(null);
+                if (res) {
+                    res = [200, 300, 20];
+                    let chartData = [["Opciones", "Votos"]];
+                    for (let i = 0; i < res.length; i++) {
+                        chartData.push([ballotData[1][i], res[i]]);
+                    }
+                    setChartData(chartData);
                 }
             });
         }
@@ -88,7 +102,7 @@ function Vote(props) {
                 }
             });
         }
-        getPieChartData();
+        getChartData();
     }, [ballotData, partyFavList]);
 
     useEffect(() => {
@@ -338,30 +352,27 @@ function Vote(props) {
 
     const showResults = () => {
         //Shows the number of votes for each option with the percentage of votes for each option and a pie chart with the percentage of votes for each option when the election is closed
-        if (ballotData && ballotData.length > 0) {
-            if (pieChartData) {
-                return (
-                    <div className="m-auto">
-                        <PieChart
-                            label={({ dataEntry }) => dataEntry.title}
-                            labelStyle={{
-                                fontSize: "0.3rem",
-                                fontWeight: "bold",
-                            }}
-                            data={pieChartData}
-                        ></PieChart>
-                    </div>
-                );
-            } else {
-                return <p>No ha habido votos</p>;
-            }
+        if (ballotData && ballotData.length > 0 && chartData) {
+            return (
+                <div className="m-auto">
+                    <Chart
+                        chartType="Bar"
+                        data={chartData}
+                        options={options}
+                        // width="100%"
+                        // height="400px"
+                    />
+                </div>
+            );
+        } else {
+            return <p>No ha habido votos</p>;
         }
     };
 
     const voteCard = () => {
         if (ballotData) {
             return (
-                <div className="shadow-lg p-3 w-full sm:w-1/2 xl:w-1/4 rounded bg-slate-50">
+                <div className="shadow-lg p-3 w-full sm:w-1/2 xl:w-1/4 rounded bg-white">
                     {showTimer()}
                     <h1 className="text-3xl font-semibold mb-5 m-3">
                         {ballotData[0]}
